@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="well">
-    Preliminary bootstrap
-    <form action='' method='POST'>
-        <input type='text' label='something' name='movie'>
-        <input type='submit' class='btn btn-success' label='something'>
-    </form>
+<div class="span4-offset3">
+    <center>
+        <div class="well span4 offset3">
+            <h4>Enter the name of the movie (without spaces)</h4><br>
+            <form action='' method='POST'>
+                <input type='text' label='something' name='movie'><br>
+                <input type='submit' class='btn btn-large btn-primary' label='something'>
+            </form>
+        </div>
+    </center>
 </div>
-<div class="well">
-    Rating is {{rating}}
+<div class="span4-offset3">
+<div class="well span4">
+    <center>
+        <h4> CrowdSourced Rating is </h4><br><h2>{{rating}}</h2>
+    </center>
+</div>
 </div>
 {% endblock %}
 

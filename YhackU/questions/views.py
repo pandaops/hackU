@@ -9,33 +9,37 @@ from collections import Counter
 import imdb
 random.seed(3)
 
+oscar = ['argo', 'lifeofpi','silverliningsplaybook','djangounchained', 'lesmiserables','brave','annakarenina','amour','skyfall']
+scale = 3
 def home(request):
     s=[]
-    api=connect()
-    if api.VerifyCredentials():
-        if request.method=='POST':
-            movie=request.POST['movie']
-            reviews = []
-            reviews_final = []
-            for i in range(1,2):
-                reviews.extend([(x.AsDict()['text'], api.GetRetweets(x.AsDict()['id'])) for x in api.GetSearch(term='#'+str(movie),per_page=100, page=i)])
-            print reviews
-            for line, val in reviews:
-                 line=line
-                 line=line.split()
-                 if val:
-                    for word in line:
-                         if word.startswith('#') or word.startswith('@'):
-                             line.remove(word)
-                    line=' '.join(line)
-                    reviews_final.extend([line, val])
-            total_rating=0
-            for each in reviews_final:
-                rating+=each[1]*wrapper([each[0]])
-                total_rating+=each[1]*1.5
-            rating/= total_rating
-            print rating
+    #api=connect()
+    #if api.VerifyCredentials():
+    #    if request.method=='POST':
+    #        movie=request.POST['movie']
+    #        if movie.lower() in oscar:
+    #            scale =6
+    #        reviews = []
+    #        reviews_final = []
+    #        for i in range(1,10):
+    #            reviews.extend([x.AsDict()['text'] for x in api.GetSearch(term='#'+str(movie),per_page=100, page=i)])
+    #        print reviews
+    #        for line in reviews:
+    #             line=line
+    #            line=line.split()
+    #             if 'RT' in line:
+    #                for word in line:
+    #                     if word.startswith('#') or word.startswith('@'):
+    #                         line.remove(word)
+    #                line=' '.join(line)
+    #                reviews_final.extend([line])
+    #             else:
+    #                pass
+    #        rating=wrapper(reviews_final)
+    #        rating=Counter(rating)
+    #        rating=scale*rating['pos']/(scale*rating['pos']+rating['neg'])
     return render_to_response('home.html',locals(),context_instance=RequestContext(request))
+
 
 def bag_of_words(words):
     return dict([word, True] for word in words)
@@ -73,9 +77,5 @@ def wrapper(review):
         words = tokenize.word_tokenize(line)
         feats = bag_of_words(words)
         c.append(classifier.classify(feats))
-    for element in c:
-        if element == 'pos':
-            element = 1.5
-        else:
-            element = 0
+    print c
     return c
