@@ -1,44 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="span4-offset3">
-    <center>
-        <div class="well span4 offset3">
-            <h4>Enter the name of the movie (without spaces)</h4><br>
-            <form action='' method='POST'>
-                <input type='text' label='something' name='movie'><br>
-                <input type='submit' class='btn btn-large btn-primary' label='something'>
-            </form>
+<div class="row">
+    <div class="span11">
+        <center>
+            <div class="well span11">
+                <h4>Enter the name of the movie:</h4><br>
+                <form action='' method='POST'>
+                    <input type='text' label='something' name='movie'><br>
+                    <input type='submit' class='btn btn-large btn-primary' label='something'>
+                </form>
+            </div>
+        </center>
+    </div>
+</div>
+
+{% if movie %}
+<div class="row">
+    <div class="span11">
+        <div class="well span11">
+            <center>
+                <h4> CrowdSourced Rating for {{movie_unsplit}} is </h4><br><h2>{{rating}}</h2>
+            </center>
         </div>
-    </center>
+    </div>
 </div>
-<div class="span4-offset3">
-<div class="well span4">
-    <center>
-        <h4> CrowdSourced Rating is </h4><br><h2>{{rating}}</h2>
-    </center>
-</div>
-</div>
-<table class='table span3'>
-    <tr><th>CrowdSourced</th>
-        <th>IMDB</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
+{% endif %}
 
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+<div class="row">
+    <div class="span11">
+        <div class="well span11">
+            <h2>Stats</h2>
+            <table class='table table-bordered'>
+                <tr><th>Movie</th>
+                    <th>CrowdSourced</th>
+                    <th>IMDB</th>
+                </tr>
+                <tr>
+                    <td>Life of Pi</td>
+                    <td>8.8</td>
+                    <td>8.2</td>
+                </tr>
+
+                <tr>
+                    <td>Argo</td>
+                    <td>8.1</td>
+                    <td>8.0</td>
+                </tr>
+                <tr>
+                    <td>The Dark Knight Rises</td>
+                    <td>8.12</td>
+                    <td>8.6</td>
+                </tr>
+                <tr>
+                    <td>Lincoln</td>
+                    <td>8.9</td>
+                    <td>7.7</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

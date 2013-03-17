@@ -9,35 +9,52 @@ from collections import Counter
 import imdb
 random.seed(3)
 
-oscar = ['argo', 'lifeofpi','silverliningsplaybook','djangounchained', 'lesmiserables','brave','annakarenina','amour','skyfall']
-scale = 3
+oscar = ['argo', 'lifeofpi','silverliningsplaybook','djangounchained', 'lesmiserables','brave','annakarenina','amour','skyfall', 'thedarkknightrises']
+
 def home(request):
+    scale = 3
     s=[]
-    #api=connect()
-    #if api.VerifyCredentials():
-    #    if request.method=='POST':
-    #        movie=request.POST['movie']
-    #        if movie.lower() in oscar:
-    #            scale =6
-    #        reviews = []
-    #        reviews_final = []
-    #        for i in range(1,10):
-    #            reviews.extend([x.AsDict()['text'] for x in api.GetSearch(term='#'+str(movie),per_page=100, page=i)])
-    #        print reviews
-    #        for line in reviews:
-    #             line=line
-    #            line=line.split()
-    #             if 'RT' in line:
-    #                for word in line:
-    #                     if word.startswith('#') or word.startswith('@'):
-    #                         line.remove(word)
-    #                line=' '.join(line)
-    #                reviews_final.extend([line])
-    #             else:
-    #                pass
-    #        rating=wrapper(reviews_final)
-    #        rating=Counter(rating)
-    #        rating=scale*rating['pos']/(scale*rating['pos']+rating['neg'])
+    api=connect()
+    #ia = imdb.IMDb()
+    if api.VerifyCredentials():
+        if request.method=='POST':
+            movie_unsplit=request.POST['movie']
+
+            # IMDb access code:
+            #s = ia.search_movie(movie)
+            #if s:
+            #    the_unt = s[0]
+            #    rating_imdb = str(the_unt['rating']).encode('utf8', 'replace')
+            #    print rating_imdb
+
+            movie = ''.join(movie_unsplit.split())
+
+            if movie.lower() in oscar:
+                scale =5
+            reviews = []
+            reviews_final = []
+            if movie.lower() == 'lifeofpi':
+                import pickle
+                f = open('dump', 'r')
+                reviews = pickle.load(f)
+            else:
+                for i in range(1,8):
+                    reviews.extend([x.AsDict()['text'] for x in api.GetSearch(term='#'+str(movie),per_page=100, page=i)])
+                print reviews
+            for line in reviews:
+                 line=line
+                 line=line.split()
+                 if 'RT' in line:
+                    for word in line:
+                         if word.startswith('#') or word.startswith('@'):
+                             line.remove(word)
+                    line=' '.join(line)
+                    reviews_final.extend([line])
+                 else:
+                    pass
+            rating=wrapper(reviews_final)
+            rating=Counter(rating)
+            rating=scale*rating['pos']*10/(scale*rating['pos']+rating['neg'])
     return render_to_response('home.html',locals(),context_instance=RequestContext(request))
 
 
